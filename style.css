@@ -32,7 +32,34 @@
 #waitDiv{
     display: none;
 }
-
+.contentDiv{
+    font-size: larger;
+    font-weight: 600;
+    text-align: left;
+    box-shadow: 0px 0px 10px 0px gray;
+    margin: 15px 0px;
+    height: 35px;
+    padding: 5px;
+    padding-left: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.sellerPic{
+    height: 250px;
+    border: 1px solid gray;
+    border-radius: 400px;
+}
+.ListProduct{
+    padding: 10px;
+    box-shadow: 0px 0px 5px 0px gray;
+    border-radius: 10px;
+}
+.ProdutctListDiv{
+    display: none;
+}
+.ActiveOrderDiv{
+    display: none;
+}
 
 
 
