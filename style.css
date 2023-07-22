@@ -53,6 +53,10 @@
     padding: 10px;
     box-shadow: 0px 0px 5px 0px gray;
     border-radius: 10px;
+    justify-content: center;
+}
+.maouot{
+    margin: 19px auto !important;
 }
 .ProdutctListDiv{
     display: none;
