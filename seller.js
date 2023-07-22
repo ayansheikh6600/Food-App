@@ -38,6 +38,8 @@ Logout.addEventListener("click" , logoutuser)
 function logoutuser(){
     const userlogout = signOut(auth).then(() => {
         console.log("sss")
+        alert("successfull")
+        window.location.replace("./index.html")
         // Sign-out successful.
       }).catch((error) => {
         // An error happened.
