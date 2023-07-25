@@ -97,6 +97,9 @@
 .VendorData{
     display: none;
 }
+#listProductInputDiv , #addProductBtn{
+    display: none;
+}
 
 
 
