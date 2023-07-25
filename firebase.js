@@ -68,11 +68,11 @@ async function login() {
     const querySnapshot = await getDocs(collection(db, "Admin"));
 querySnapshot.forEach((doc) => {
   const data = doc.data()
-  // console.log(data.status)
-  // console.log(user.status)
-  // console.log(data)
+  console.log(data.status)
+  console.log(user.status)
+  console.log(data)
   if(data.UID == user.uid && data.status == true){
-    // console.log(data)
+    console.log(data.UID)
     window.location.replace("./Admin.html")
   }
 });
@@ -87,10 +87,12 @@ BuyerData.forEach((doc) => {
 
   if(Buydata.UID == user.uid && Buydata.status == false){
     window.location.replace("./BuyerDashboard.html")
+    
   }
   
 
 });
+
 const SellerData = await getDocs(collection(db, "sellers"));
 SellerData.forEach((doc) => {
   const Selldata = doc.data()
@@ -100,11 +102,6 @@ SellerData.forEach((doc) => {
 
   if(Selldata.UID == user.uid && Selldata.status == true){
      window.location.replace("./seller.html")
-     
-  }else{
-    console.log(Selldata.UID)
-    console.log(user.uid)
-    window.location.replace("./waitingPage.html")
   }
  
 
