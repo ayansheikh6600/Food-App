@@ -90,7 +90,13 @@
 .indexContentDiv{
     margin-top: 10em;
 }
-
+.buttonGroup{
+    width: 162px;
+    margin: 10px auto;
+}
+.VendorData{
+    display: none;
+}
 
 
 

@@ -40,6 +40,9 @@ const loginBtn = document.getElementById("loginBtn")
 const SignupMenu = document.querySelector(".SignupMenu")
 const SellerDiv = document.querySelector(".SellerDiv")
 const BuyerDiv = document.querySelector(".BuyerDiv")
+const FirstName = document.querySelector("#FirstName")
+const LastName = document.querySelector("#LastName")
+var fullName;
 
 Buyer.addEventListener("click", BuyerProfile)
 loginBtn.addEventListener("click", login)
@@ -124,6 +127,7 @@ function showLogin() {
 }
 
 const Buyers = {
+  Name: "",
   email : email.value,
   status : true,
   UID : ""
@@ -142,6 +146,7 @@ function BuyerProfile() {
 
 //------------------------ golablly object decelared
 const sellers = {
+  Name : "",
   status: true,
   email: email.value,
   UID : ""
@@ -177,13 +182,17 @@ async function UserSignup() {
     alert("Enter Value")
     return
   }
+  fullName = FirstName.value +" " +LastName.value
+  console.log(fullName)
  await createUserWithEmailAndPassword(auth, email.value, password.value)
     .then(async (userCredential) => {
       // Signed in 
       const user = userCredential.user;
       console.log(user)
+
       if(sellers.status == false){
         try {
+          sellers.Name = fullName
           sellers.UID = user.uid;
           sellers.email = email.value;
           sellers.status = sellers.status;
@@ -200,6 +209,7 @@ async function UserSignup() {
       }
       if(Buyers.status == false){
         try {
+          Buyers.Name = fullName
           Buyers.UID = user.uid;
           Buyers.email = email.value;
           Buyers.status = Buyers.status;
