@@ -24,6 +24,7 @@ const CustomerData = document.getElementById("CustomerData")
 const VendorData = document.getElementById("VendorData")
 const ShowCustomer = document.getElementById("ShowCustomer")
 const ShowVendor = document.getElementById("ShowVendor")
+const PageUID = document.getElementById("PageUID")
 console.log(VendorData.innerHTML)
 ShowCustomer.addEventListener("click", ShowCustomerData)
 window.addEventListener("load", ShowCustomerData)
@@ -31,6 +32,7 @@ const usernumber = 0
 
 
 async function ShowCustomerData() {
+    PageUID.innerHTML = "UID"
     VendorData.style.display="none"
     CustomerData.style.display = ""
     if(CustomerData.value == undefined){
@@ -58,6 +60,7 @@ async function ShowCustomerData() {
 console.log(VendorData.value)
 ShowVendor.addEventListener("click" , ShowVendorData)
 async function ShowVendorData(){
+    PageUID.innerHTML = "Status"
     if(VendorData.value == undefined){
         const querySnapshot = await getDocs(collection(db, "sellers"));
     querySnapshot.forEach((doc) => {
@@ -66,7 +69,7 @@ async function ShowVendorData(){
         console.log(Vendata)
         const userName = Vendata.Name
         const userEmail = Vendata.email
-        const userUID = Vendata.UID
+        const userUID = Vendata.status
         VendorData.innerHTML += `<tr>
         <th scope="row">${usernumber}</th>
         <td>${userName}</td>
