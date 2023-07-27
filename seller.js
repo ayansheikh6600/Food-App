@@ -167,7 +167,7 @@ function getImageUrl(e){
  selectedImageUrl = e.src
     console.log(selectedImageUrl)
 
-    const card = `<div class="card" style="width: 18rem;">
+    const card = `<div class="card z-index" style="width: 18rem;">
     <img src="${selectedImageUrl}" class="card-img-top" alt="...">
     <div class="card-body">
         <p class="card-text">${prompt("Enter Prodct Name")}</p>
