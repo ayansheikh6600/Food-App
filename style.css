@@ -97,9 +97,10 @@
 .VendorData{
     display: none;
 }
-#listProductInputDiv , #addProductBtn{
+#listProductInputDiv , #addProductBtn, #ShowListProductDiv{
     display: none;
 }
+
 
 
 

@@ -24,6 +24,7 @@ const listProductInputDiv = document.querySelector("#listProductInputDiv")
 const addProductBtn = document.querySelector("#addProductBtn")
 const ProductName = document.querySelector("#ProductName")
 const ProductPrice = document.querySelector("#ProductPrice")
+const ImageBtn = document.querySelector("#ImageBtn")
 const ProductCategory = document.querySelector("#ProductCategory")
 const DashboardDiv = document.querySelector(".DashboardDiv")
 const ProdutctListDiv = document.querySelector(".ProdutctListDiv")
@@ -111,6 +112,74 @@ ShowListProductDiv.addEventListener("click", ShowListDiv)
 
 function ShowListDiv() {
     ShowListProductDiv.style.display = "none"
+    ImageBtn.style.display = "block"
     addProductBtn.style.display = "block"
     listProductInputDiv.style.display = "block"
 }
+
+ImageBtn.addEventListener("click", ShowImages)
+
+async function ShowImages() {
+    console.log("hii")
+    // window.open("./images.html", "win1", "width=500, height=500 , left = 40% , top = 40% ")
+
+}
+
+
+//----------------------Images Show-------------
+const close = document.querySelector(".close")
+const SearchImageInput = document.querySelector("#SearchImageInput")
+const SerchImage = document.querySelector("#SerchImage")
+const imagesDiv = document.querySelector(".imagesDiv")
+const AccessKey = "52i2wRG0PRr2qkh9qpnSq5AczURPgj7CI0qw9KLu_yk"
+
+let inputData = ""
+let page =1;
+
+
+SerchImage.addEventListener("click", SearchImages)
+async function SearchImages() {
+    inputData = SearchImageInput.value
+    const url = `https://api.unsplash.com/search/photos?page=${page}&query=${inputData}&client_id=${AccessKey}`
+    const response = await fetch(url)
+    const data = await response.json()
+
+    const results = data.results
+    console.log(results)
+
+    //    console.log(results)
+    await results.map((result) => {
+        const imagewrapper = document.createElement("div")
+        const image = document.createElement("img")
+        image.src = result.url
+        const imgLink = result.urls.small
+        console.log(result)
+
+        const divResult = `<div class="card" style="width: 18rem;">
+        <img src="${imgLink}" class="card-img-top" onclick=getImageUrl(this) alt="...">
+      </div>`
+
+      imagesDiv.innerHTML += divResult
+    })
+}
+var selectedImageUrl;
+function getImageUrl(e){
+ selectedImageUrl = e.src
+    console.log(selectedImageUrl)
+
+    const card = `<div class="card" style="width: 18rem;">
+    <img src="${selectedImageUrl}" class="card-img-top" alt="...">
+    <div class="card-body">
+        <p class="card-text">${prompt("Enter Prodct Name")}</p>
+    </div>
+</div>`
+    close.click()
+
+    productlistingRow.innerHTML += card
+}
+
+
+
+
+
+window.getImageUrl = getImageUrl
