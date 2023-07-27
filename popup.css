@@ -24,6 +24,7 @@
   }
   
   .overlay {
+    z-index: 3;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -60,6 +61,7 @@
     height: 500px;
     position: relative;
     transition: all 5s ease-in-out;
+    /* z-index: 1; */
     overflow: scroll;
     
   }

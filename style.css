@@ -100,9 +100,12 @@
 #listProductInputDiv , #addProductBtn, #ShowListProductDiv{
     display: none;
 }
-.imagesDiv, .z-index{
-    z-index: -1;
-  }
+/* .imagesDiv, .z-index{
+    z-index: 1;
+  } */
+.index{
+    z-index: 3;
+}
   
 
 

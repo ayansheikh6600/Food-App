@@ -18,11 +18,7 @@ const app = initializeApp(firebaseConfig)
 const db = getFirestore(app);
 const auth = getAuth();
 
-const ProductNameInput = document.querySelector("#ProductNameInput")
-const ShowListProductDiv = document.querySelector("#ShowListProductDiv")
-const listProductInputDiv = document.querySelector("#listProductInputDiv")
 const addProductBtn = document.querySelector("#addProductBtn")
-const ProductName = document.querySelector("#ProductName")
 const ProductPrice = document.querySelector("#ProductPrice")
 const ImageBtn = document.querySelector("#ImageBtn")
 const ProductCategory = document.querySelector("#ProductCategory")
@@ -36,29 +32,10 @@ const Logout = document.querySelector(".Logout")
 const productlistingRow = document.querySelector(".productlistingRow")
 
 
-// addProductBtn.addEventListener("click" , addproductDiv)
 DashBtn.addEventListener("click", dashboradShow)
 ListBtn.addEventListener("click", listShow)
 activeBtn.addEventListener("click", activeOrderShow)
 Logout.addEventListener("click", logoutuser)
-
-
-// function addproductDiv() {
-//     const input = ProductNameInput.value
-//     const productDiv = `<div class="ListProduct col-md-4">
-//   <div class="card" style="width: 18rem;">
-//       <img src="..." class="card-img-top" alt="...">
-//       <div class="card-body">
-//           <h5 class="card-title">${input}</h5>
-//           <p class="card-text">Some quick example text to build on the card title and make
-//               up the bulk of the card's content.</p>
-//           <a href="#" class="btn btn-primary">Go somewhere</a>
-//       </div>
-//   </div>
-// </div>`
-
-//     ProdutctListDiv.innerHTML += productDiv
-// }
 
 function logoutuser() {
     const userlogout = signOut(auth).then(() => {
@@ -87,43 +64,8 @@ function activeOrderShow() {
     ActiveOrderDiv.style.display = "block"
 }
 
-addProductBtn.addEventListener("click", listAProduct)
-async function listAProduct() {
+// addProductBtn.addEventListener("click", listAProduct)
 
-    var userUID = localStorage.getItem("userUID")
-    console.log(userUID)
-    const q = query(collection(db, "sellers"));
-
-    const querySnapshot = await getDocs(q);
-    const queryData = querySnapshot.docs.map((detail) => ({
-        ...detail.data()
-    }))
-    console.log(queryData)
-    queryData.map(async (v, id) => {
-        await setDoc(doc(db, `sellers/${userUID}/Products`, userUID), {
-            ProductName: ProductName.value,
-            ProductId: userUID,
-            ProductPrice: ProductPrice.value,
-            ProductCategory: ProductCategory.value
-        })
-    })
-}
-ShowListProductDiv.addEventListener("click", ShowListDiv)
-
-function ShowListDiv() {
-    ShowListProductDiv.style.display = "none"
-    ImageBtn.style.display = "block"
-    addProductBtn.style.display = "block"
-    listProductInputDiv.style.display = "block"
-}
-
-ImageBtn.addEventListener("click", ShowImages)
-
-async function ShowImages() {
-    console.log("hii")
-    // window.open("./images.html", "win1", "width=500, height=500 , left = 40% , top = 40% ")
-
-}
 
 
 //----------------------Images Show-------------
@@ -167,10 +109,12 @@ function getImageUrl(e){
  selectedImageUrl = e.src
     console.log(selectedImageUrl)
 
-    const card = `<div class="card z-index" style="width: 18rem;">
+    const card = `<div class="card" style="width: 18rem;">
     <img src="${selectedImageUrl}" class="card-img-top" alt="...">
     <div class="card-body">
-        <p class="card-text">${prompt("Enter Prodct Name")}</p>
+        <h5 class="card-text">${prompt("Enter Prodct Name")}</h5>
+        <p class="card-text">${"PKR: "+ prompt("Enter Prodct Price")}</p>
+        <a class="btn btn-primary" onclick=listAproduct(this)>List Product</a>
     </div>
 </div>`
     close.click()
@@ -178,8 +122,64 @@ function getImageUrl(e){
     productlistingRow.innerHTML += card
 }
 
+async function listAproduct(e){
+    const ProductSrc= e.parentNode.parentNode.children[0].src
+    const ProductName= e.parentNode.parentNode.children[1].children[0].innerHTML
+    const ProductPrice= e.parentNode.parentNode.children[1].children[1].innerHTML
+    const sellerUID = localStorage.getItem("userUID")
+    console.log(sellerUID)
+
+ const ProductObj = {
+    ProductName,
+    ProductPrice,
+    ProductSrc,
+    ProductId : sellerUID
+ }
+
+
+try{
+    const docse = await setDoc(doc(db, "Product", sellerUID), ProductObj)
+   console.log(docse)
+}catch(e){
+    console.error("Error adding document: ", e);
+}
+   
+    // const q = query(collection(db, "sellers"));
+
+    // const querySnapshot = await getDocs(q);
+    // const queryData = querySnapshot.docs.map((detail) => ({
+    //     ...detail.data()
+    // }))
+    // console.log(queryData)
+    // queryData.map(async (v, id) => {
+    //     await setDoc(doc(db, `sellers/${sellerUID}/Products`, sellerUID), {
+    //         ProductName: ProductName,
+    //         ProductId: sellerUID,
+    //         sellerUID : sellerUID,
+    //         ProductPrice: ProductPrice,
+    //         imageSrc : ProductSrc
+    //     })
+    // })
+}
+
+
+const productlistingRow1 = document.querySelector(".productlistingRow1")
+
+window.addEventListener("load", showlistedProduct)
+async function showlistedProduct(){
+
+    const querySnapshot = await getDocs(collection(db, "Product"));
+    querySnapshot.forEach((doc) => {
+        console.log(doc.data())
+      // doc.data() is never undefined for query doc snapshots
+    //   console.log(doc.id, " => ", doc.data());
+    });
+
+
+}
 
 
 
 
 window.getImageUrl = getImageUrl
+window.listAproduct = listAproduct
