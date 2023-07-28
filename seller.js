@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-import { getFirestore, collection, doc, setDoc, query, getDocs } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore, collection, doc, setDoc, query, getDocs ,addDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -133,13 +133,14 @@ async function listAproduct(e){
     ProductName,
     ProductPrice,
     ProductSrc,
-    ProductId : sellerUID
+    sellerUID
  }
 
 
 try{
-    const docse = await setDoc(doc(db, "Product", sellerUID), ProductObj)
+    const docse = await addDoc(collection(db, "Product"), ProductObj)
    console.log(docse)
+   window.location.reload()
 }catch(e){
     console.error("Error adding document: ", e);
 }
@@ -171,6 +172,31 @@ async function showlistedProduct(){
     const querySnapshot = await getDocs(collection(db, "Product"));
     querySnapshot.forEach((doc) => {
         console.log(doc.data())
+        // const Id = doc.data().ProductId
+        // console.log(Id)
+        const sellerUID = localStorage.getItem("userUID")
+        console.log(sellerUID)
+        console.log(doc.data().sellerUID)
+        if(sellerUID == doc.data().sellerUID){
+            console.log(doc.data())
+
+            const card = `<div class="card" style="width: 18rem;">
+            <img src="${doc.data().ProductSrc}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-text">${doc.data().ProductName}</h5>
+                <p class="card-text">${doc.data().ProductPrice}</p>
+                
+            </div>
+        </div>`
+
+        productlistingRow1.innerHTML += card
+
+
+
+
+        }
+
+
       // doc.data() is never undefined for query doc snapshots
     //   console.log(doc.id, " => ", doc.data());
     });
