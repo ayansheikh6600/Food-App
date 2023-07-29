@@ -198,7 +198,7 @@ async function UserSignup() {
           sellers.status = sellers.status;
           const userRef = doc(db , "sellers", user.uid)
           const userData = await setDoc(userRef, sellers)
-          localStorage.setItem("userUID" , user.uid)
+          localStorage.setItem("userUID" , JSON.stringify(sellers))
           SignupMenu.style.display = "none"
           waitDiv.style.display = "block"
           console.log("Document written with ID: ", userRef.id);
@@ -215,7 +215,7 @@ async function UserSignup() {
           Buyers.status = Buyers.status;
           const userRef = doc(db , "Buyers", user.uid)
           const userData = await setDoc(userRef, Buyers)
-          localStorage.setItem("userUID" , user.uid)
+          localStorage.setItem("userUID" , JSON.stringify(Buyers))
           // SignupMenu.style.display = "none"
           // waitDiv.style.display = "block"
           window.location.replace("./BuyerDashboard.html")

@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+import { getFirestore,getDoc, collection, addDoc, getDocs, doc, updateDoc, setDoc} from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -25,22 +25,22 @@ const VendorData = document.getElementById("VendorData")
 const ShowCustomer = document.getElementById("ShowCustomer")
 const ShowVendor = document.getElementById("ShowVendor")
 const PageUID = document.getElementById("PageUID")
-console.log(VendorData.innerHTML)
+// console.log(VendorData.innerHTML)
 ShowCustomer.addEventListener("click", ShowCustomerData)
 window.addEventListener("load", ShowCustomerData)
-const usernumber = 0
+var usernumber = 1
 
 
 async function ShowCustomerData() {
-    PageUID.innerHTML = "UID"
-    VendorData.style.display="none"
+    // PageUID.innerHTML = "UID"
+    VendorData.style.display = "none"
     CustomerData.style.display = ""
-    if(CustomerData.value == undefined){
+    if (CustomerData.value == undefined) {
         const querySnapshot = await getDocs(collection(db, "Buyers"));
         querySnapshot.forEach((doc) => {
-    
+
             const Buydata = doc.data()
-    
+
             const userName = Buydata.Name
             const userEmail = Buydata.email
             const userUID = Buydata.UID
@@ -55,35 +55,79 @@ async function ShowCustomerData() {
             //   console.log(doc.id, " => ", doc.data());
         });
     }
-    
-}
-console.log(VendorData.value)
-ShowVendor.addEventListener("click" , ShowVendorData)
-async function ShowVendorData(){
-    PageUID.innerHTML = "Status"
-    if(VendorData.value == undefined){
-        const querySnapshot = await getDocs(collection(db, "sellers"));
-    querySnapshot.forEach((doc) => {
 
-        const Vendata = doc.data()
-        console.log(Vendata)
-        const userName = Vendata.Name
-        const userEmail = Vendata.email
-        const userUID = Vendata.status
-        VendorData.innerHTML += `<tr>
+}
+// console.log(VendorData.value)
+ShowVendor.addEventListener("click", ShowVendorData)
+async function ShowVendorData() {
+    // PageUID.innerHTML = "Status"
+    if (VendorData.value == undefined) {
+        const querySnapshot = await getDocs(collection(db, "sellers"));
+        querySnapshot.forEach((doc) => {
+
+            const Vendata = doc.data()
+            // console.log(Vendata)
+            const userName = Vendata.Name
+            const userEmail = Vendata.email
+            const userStatus = Vendata.status
+            const userUID = Vendata.UID
+            VendorData.innerHTML += `<tr>
         <th scope="row">${usernumber}</th>
         <td>${userName}</td>
         <td>${userEmail}</td>
-        <td>${userUID}</td></tr>`
-        VendorData.value = 1
+        <td>${userUID}</td>
+        <td>${userStatus ? `<div class="form-check form-switch">
+            <input class="form-check-input" onchange={handleAccountActivation(this)} type="checkbox" id="flexSwitchCheckChecked" checked>
+          </div>` : `<div class="form-check form-switch">
+          <input class="form-check-input"  onchange={handleAccountActivation(this)} type="checkbox" id="flexSwitchCheckChecked" >
+        </div>`
 
-        // doc.data() is never undefined for query doc snapshots
-        //   console.log(doc.id, " => ", doc.data());
-    });
+                }</td>
+             </tr>`
+            VendorData.value = 1
+            usernumber++
+
+            // doc.data() is never undefined for query doc snapshots
+            //   console.log(doc.id, " => ", doc.data());
+        });
     }
-    
+
 
     CustomerData.style.display = "none"
     VendorData.style.display = ""
 
 }
+
+async function handleAccountActivation(e) {
+    // console.log(e.parentNode.parentNode.parentNode.children[3].innerHTML)
+    const venderUID = (e.parentNode.parentNode.parentNode.children[3].innerHTML)
+
+    const docRef = doc(db, "sellers", venderUID);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        // console.log("Document data:", docSnap.data());
+        const venderData = docSnap.data()
+
+        if(venderData.status == false ){
+            venderData.status = true
+
+            await updateDoc(docRef, venderData);
+            window.location.reload()
+        }else{
+            venderData.status = false
+            await updateDoc(docRef, venderData);
+            window.location.reload()
+
+        }
+        // console.log(venderData)
+
+
+    } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}
+
+
+window.handleAccountActivation = handleAccountActivation

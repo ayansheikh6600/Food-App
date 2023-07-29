@@ -26,22 +26,20 @@ async function getProduct() {
     querySnapshot.forEach((doc) => {
         console.log(doc.data())
 
-        if (counter < 3) {
+        if (counter < 4) {
             console.log(doc.data().ProductSrc)
 
             const imageSrc = doc.data().ProductSrc;
             const ProductPrice = doc.data().ProductPrice;
             const ProductName = doc.data().ProductName;
 
-            const card = `<div class="ListProduct col-md-3">
-                <div class="card maouot" style="width: 16rem;">
-                    <img src="${imageSrc}" class="card-img-top" style="height: 170px ;" alt="...">
+            const card = `<div class="card maouot" style="width: 16rem;">
+                    <img src="${imageSrc}" class="card-img-top mt-3" style="height: 170px ;" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">${ProductName}</h5>
                         <p class="card-text">${ProductPrice}</p>
                     </div>
-                </div>
-            </div>`
+                </div>`
 
             indexProductDiv.innerHTML += card
 

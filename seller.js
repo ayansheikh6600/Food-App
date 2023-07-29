@@ -41,6 +41,7 @@ function logoutuser() {
     const userlogout = signOut(auth).then(() => {
         console.log("sss")
         alert("successfull")
+        localStorage.clear()
         window.location.replace("./index.html")
         // Sign-out successful.
     }).catch((error) => {
@@ -126,7 +127,8 @@ async function listAproduct(e){
     const ProductSrc= e.parentNode.parentNode.children[0].src
     const ProductName= e.parentNode.parentNode.children[1].children[0].innerHTML
     const ProductPrice= e.parentNode.parentNode.children[1].children[1].innerHTML
-    const sellerUID = localStorage.getItem("userUID")
+    const sellerLocalData =  JSON.parse(localStorage.getItem("userUID"))
+   const sellerUID = sellerLocalData.UID
     console.log(sellerUID)
 
  const ProductObj = {
@@ -169,12 +171,18 @@ const productlistingRow1 = document.querySelector(".productlistingRow1")
 window.addEventListener("load", showlistedProduct)
 async function showlistedProduct(){
 
+    const sellerLocalData =  JSON.parse(localStorage.getItem("userUID"))
+
+   const sellerUID = sellerLocalData.UID
+    console.log(sellerUID)
+
+
     const querySnapshot = await getDocs(collection(db, "Product"));
     querySnapshot.forEach((doc) => {
         console.log(doc.data())
         // const Id = doc.data().ProductId
         // console.log(Id)
-        const sellerUID = localStorage.getItem("userUID")
+        // const sellerUID = localStorage.getItem("userUID")
         console.log(sellerUID)
         console.log(doc.data().sellerUID)
         if(sellerUID == doc.data().sellerUID){
